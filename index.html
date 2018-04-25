@@ -13,13 +13,13 @@
   </div>
 </form>
 
-<form id="labnol2" method="get" action="www.hp.com">
+<form id="labnol2" method="get" action="https://www.hp.com">
 </form>
 
-<form id="labnol3" method="get" action="www.gmail.com">
+<form id="labnol3" method="get" action="https://www.gmail.com">
 </form>
 
-<form id="labnol4" method="get" action="www.yahoo.com">
+<form id="labnol4" method="get" action="https://www.yahoo.com">
 </form>
 
 <!-- HTML5 Speech Recognition API -->
@@ -42,19 +42,11 @@
         recognition.stop();
  
        if (document.getElementById('transcript').value == "scan document") {
-        document.getElementById('labnol2').submit();
-          }
-       elseif
-         (document.getElementById('transcript').value == "print photo") {
-        document.getElementById('labnol3').submit();
-          }
-        elseif
-         (document.getElementById('transcript').value == "print document") {
-        document.getElementById('labnol4').submit();
-          }
-        else
+          document.getElementById('labnol2').submit();
+       }
+       else
        {
-        document.getElementById('labnol').submit();
+          document.getElementById('labnol').submit();
        }
         
         
