@@ -13,6 +13,9 @@
   </div>
 </form>
 
+<form id="labnol2" method="get" action="https://shannonqiu.github.io/to_clear_a_paper_jam_from_the_rear_of_the_printer_step1.html">
+</form>
+
 <!-- HTML5 Speech Recognition API -->
 <script>
   function startDictation() {
@@ -31,7 +34,16 @@
         document.getElementById('transcript').value
                                  = e.results[0][0].transcript;
         recognition.stop();
+ 
+       if (document.getElementById('transcript').value == "scan document") {
+        document.getElementById('labnol2').submit();
+          }
+       else
+       {
         document.getElementById('labnol').submit();
+       }
+        
+        
       };
 
       recognition.onerror = function(e) {
