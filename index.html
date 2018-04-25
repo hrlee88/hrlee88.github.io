@@ -3,6 +3,17 @@
   .speech {border: 1px solid #DDD; width: 300px; padding: 0; margin: 0}
   .speech input {border: 0; width: 240px; display: inline-block; height: 30px;}
   .speech img {float: right; width: 40px }
+  
+        #status{
+           
+            font-size: 24px;
+            letter-spacing: -0.3px;
+            text-align: center;
+            color: rgba(12, 12, 12, 0.87);
+            margin: 0px;
+            margin-bottom: 20px;
+            margin-top: 20px;
+        }
 </style>
 
 <!-- Search Form -->
@@ -21,6 +32,8 @@
 
 <form id="labnol4" method="get" action="https://www.yahoo.com">
 </form>
+
+<p id="status">assistant status</p>
 
 <!-- HTML5 Speech Recognition API -->
 <script>
@@ -51,6 +64,7 @@
        else if 
          (document.getElementById('transcript').value == "print photo") {
           document.getElementById('labnol4').submit();
+           document.getElementById('status').value = "printing photo";
        } else
        {
           document.getElementById('labnol').submit();
