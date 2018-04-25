@@ -44,7 +44,10 @@
        if (document.getElementById('transcript').value == "scan document") {
           document.getElementById('labnol2').submit();
        }
-       else
+       else if 
+         (document.getElementById('transcript').value == "print document") {
+          document.getElementById('labnol3').submit();
+       } else
        {
           document.getElementById('labnol').submit();
        }
