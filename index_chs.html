@@ -1,0 +1,501 @@
+
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head prefix="og: http://ogp.me/ns#">
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+
+    <title>Voice Assistant Demo - Web Speech API</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="canonical" href="https://svignara.github.io/voice-assistant/">
+    <link rel="alternate" href="https://svignara.github.io/voice-assistant/" hreflang="en" />
+
+    <!-- common social tags -->
+
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://svignara.github.io/assets/img/social-card-image.jpg">
+    <meta property="og:site_name" content="Suvi's House">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:image" content="https://svignara.github.io/assets/img/social-card-image.jpg">
+    <meta name="twitter:site" content="@suvi_v">
+    <meta name="twitter:creator" content="@suvi_v">
+
+    <!-- document-specific social tags -->
+
+    <meta property="og:title" content="Voice Assistant Demo">
+    <meta property="og:url" content="https://svignara.github.io/voice-assistant/">
+    <meta name="twitter:url" content="https://svignara.github.io/voice-assistant/">
+    <meta name="twitter:title" content="Voice Assistant Demo - Web Speech API">
+
+    <meta property="og:description" content="This is a demonstration of how the SpeechRecognition and SpeechSynthesis interfaces of the Web Speech API can be used to create a voice assistant for a website.">
+    <meta name="description" content="This is a demonstration of how the SpeechRecognition and SpeechSynthesis interfaces of the Web Speech API can be used to create a voice assistant for a website.">
+    <meta name="twitter:description" content="This is a demonstration of how the SpeechRecognition and SpeechSynthesis interfaces of the Web Speech API can be used to create a voice assistant for a website.">
+
+</head>
+
+<body>
+    <main>
+        <style>
+            main {
+                padding: 0 15px;
+            }
+            .centered {
+                text-align: center;
+            }
+            .copy-container {
+                display: block;
+                margin: 0 auto;
+                width: 100%;
+                min-width: 220px;
+                max-width: 640px;
+            }
+            .conversation-box-el {
+                max-height: 400px;
+                overflow-y: auto;
+                border: 1px solid #cacaca;
+                border-radius: 5px;
+            }
+            .conversation-box-el > * {
+                display: flex;
+                padding: 15px;
+            }
+            .conversation-box-el > .assistant-speech {
+                justify-content: flex-start;
+            }
+            .conversation-box-el > .user-speech {
+                justify-content: flex-end;
+            }
+            .conversation-box-el > * > * {
+                border: 1px solid #ff9800;
+                border-radius: 5px;
+                padding: 15px;
+                margin: 0;
+                width: 40%;
+                min-width: 220px;
+            }
+
+            .assistant-ui-container.hide {
+                display: none;
+            }
+            .assistant-ui-unavailable-msg {
+                display: none;
+                color: red;
+            }
+            .assistant-ui-unavailable-msg.show {
+                display: block;
+            }
+        </style>
+        <div class="centered">
+          
+        </div>
+        <div id="assistant-ui" class="assistant-ui-container" block="none">
+            <div class="centered">
+              <img src="https://s3-us-west-2.amazonaws.com/team-fixit/MARS_UI.jpg" style="width:100%; height:10%;">
+            </div>
+            <div class="centered">
+                <p><a id="wake-up-assistant" href="javascript:;">Start MARS</a></p>
+                <input id='continnue-assistant' type="image" src='https://www.tcmobile.jp/dev_blog/wp-content/uploads/2017/06/no-translate-detected_318-8458.jpg' height=30 width=30></input>
+            </div>
+            <div class="copy-container">
+                <p>Example of Commands:</p>
+                <ul>
+                    <li>Scan Receipts</li>
+                    <li>Print to Home</li>
+                    <li>Extract Data</li>
+                    <li>Send to Excel</li>
+                    <li>done</li>
+                </ul>
+            </div>
+            <div id="conversation-box" class="conversation-box-el copy-container"></div>
+        </div>
+        <div id="assistant-ui-unavailable-msg" class="assistant-ui-unavailable-msg">
+            <p>Aw boo! Looks like you're using a browser that doesn't fully support Web Speech API features. Please use the latest version of Chrome for the best experience. Hopefully these other browsers will follow suit sooner rather than later!</p>
+        </div>
+    </main>
+    <script>
+        var Assistant = (function(){
+            'use strict'
+
+            var Broadcast = {
+                braodcasts: {},
+                listen: function(broadcastName, fn) {
+                    this.braodcasts[broadcastName] = this.braodcasts[broadcastName] || [];
+                    this.braodcasts[broadcastName].push(fn);
+                },
+                drop: function(broadcastName, fn) {
+                    if (this.braodcasts[broadcastName]) {
+                        for (var i = 0; i < this.braodcasts[broadcastName].length; i++) {
+                            if (this.braodcasts[broadcastName][i] === fn) {
+                                this.braodcasts[broadcastName].splice(i, 1);
+                                break;
+                            }
+                        }
+                    }
+                },
+                broadcast: function(broadcastName, data) {
+                    if (this.braodcasts[broadcastName]) {
+                        this.braodcasts[broadcastName].forEach(function(fn) {
+                            fn(data);
+                        });
+                    }
+                }
+            };
+
+            var wakeEl = document.getElementById('wake-up-assistant'),
+                conversationBox = document.getElementById('conversation-box'),
+                assistantUIEl = document.getElementById('assistant-ui'),
+                assistantUIUnavailable = document.getElementById('assistant-ui-unavailable-msg'),
+                speechSynth = window.speechSynthesis || false,
+                voices = [],
+                introMsg = `Hello! I'm mars. what can I do for you?`,
+                wakeupMsg = `Hi! How may I help?`,
+                utterance = (!!window.SpeechSynthesisUtterance) ? new window.SpeechSynthesisUtterance() : false,
+                interactions = {
+                    gaveIntro : false,
+                    speaking : false,
+                    listenToUser : false,
+                    executeCommand : false,
+                    selectedCommand : {}
+                },
+                speechRec = (!!window.SpeechRecognition || !!window.webkitSpeechRecognition || !!window.mozSpeechRecognition || !!window.msSpeechRecognition) ? new (window.SpeechRecognition || window.webkitSpeechRecognition || window.mozSpeechRecognition || window.msSpeechRecognition)() : false;
+            
+            var continue_assist = document.getElementById('continnue-assistant')
+            
+            if (speechRec){
+                speechRec.continuous = false;
+                speechRec.interimResults = false;
+                speechRec.lang = 'zh_CN';
+            }
+
+            var generalCommands = [
+                {"command" : "scan receipts to home printer and excel", "response" : "what else  "},
+                {"command" : "scan data", "href" : "https://svignara.github.io/experiments/"},
+                {"command" : "scan receipts and documents", "href" : "https://svignara.github.io/front-end/"},
+                {"command" : "extract data", "href" : "excel"},
+                {"command" : "打印", "response" : "正在打印中，请耐心等待" },
+                {"command" : "list", "response" : "command list digitize, invoice, extract data, sent to, print" },
+                {"command" : "go to hp smart", "href" : "video"},
+                {"command" : "data", "href" : "excel"},
+                {"command" : "done", "response" : "FixIt team,  you are so cool.  STOP AT NOTHING" }
+            ];
+
+            //Helper Functions
+
+            function _findGoogleVoice(voice){
+                return voice.name === 'Google 中国';
+            }
+
+            function _findCommand(msg){
+                var cmd = generalCommands.find(function(command){
+                    return msg.indexOf(command.command) > -1;
+                });
+                return cmd;
+            }
+
+            function _appendMsgToConvoBox(msg, whoSaidIt){
+                var chatRow = document.createElement('div'),
+                    chatBubble = document.createElement('p'),
+                    content = document.createTextNode(msg);
+                chatRow.className = (whoSaidIt === 'user') ? 'user-speech' : 'assistant-speech';
+                chatBubble.appendChild(content);
+                chatRow.appendChild(chatBubble);
+                conversationBox.appendChild(chatRow);
+                if (!!chatRow.scrollIntoViewIfNeeded){
+                    chatRow.scrollIntoViewIfNeeded();
+                }else{
+                    conversationBox.scrollTop = conversationBox.scrollHeight;
+                }
+            }
+
+            function respondToUserCommand(command){
+                var speakAgain = true;
+                interactions.executeCommand = !!command;
+                interactions.selectedCommand = (interactions.executeCommand) ? command : {};
+
+                if (interactions.executeCommand){
+                    if (interactions.selectedCommand.response){
+                        utterance.text = interactions.selectedCommand.response;
+                    }else if (interactions.selectedCommand.href == "video"){
+                       // utterance.text = `you want me to ${interactions.selectedCommand.command} `;
+                       // window.location.href = "https://s3-us-west-2.amazonaws.com/team-fixit/html_video.html";
+                        
+                         window.open("https://s3-us-west-2.amazonaws.com/team-fixit/html_video.html",'_blank');  //opens window in new tab
+                        // window.open("https://s3-us-west-2.amazonaws.com/team-fixit/html_video.html");  
+                         utterance.text ="ok";
+                    }
+                    else if (interactions.selectedCommand.href == "excel"){
+                       // utterance.text = `you want me to ${interactions.selectedCommand.command} `;
+                       // window.location.href = "https://s3-us-west-2.amazonaws.com/team-fixit/html_video.html";
+                        
+                         window.open("https://docs.google.com/spreadsheets/d/1AKaEFeUyghEmn3O0yTlsTRTPTSLTXzhgAYa1_gTvi-Q/edit#gid=0",'_blank');  //opens window in new tab
+                      //   window.open("https://s3-us-west-2.amazonaws.com/team-fixit/share_to_cloud_drive.html");  
+                         utterance.text ="going to cloud drive";
+                    }
+                }else{
+
+                    utterance.text = `"正在打印中，请耐心等待"`;
+                    //speechSynth.speak(utterance);
+                    speakAgain = false
+
+                    
+                  //  window.open("https://s3-us-west-2.amazonaws.com/team-fixit/html_video.html"); 
+
+        
+                    console.log(`we are hard coding the response for failure`);
+                    //demo();
+                   // window.location.href = "https://www.youtube.com/watch?v=G3C8_0VPaN4";
+                }
+                if (speakAgain)
+                {
+                    speechSynth.speak(utterance);
+                }
+                else
+                {
+    
+                   // utterance.text = `ok`;
+                     window.open("https://s3-us-west-2.amazonaws.com/team-fixit/html_video.html",'_blank');  //opens window in new tab
+                     speechSynth.speak(utterance);
+                     sleep(5000);
+
+                }
+            }
+
+            function respondToProfanity(){
+                utterance.text = `Hey! That's not very nice!`;
+                speechSynth.speak(utterance);
+            }
+
+            // End of Helper Functions
+
+            // Broadcasting functions
+
+            function broadcastVoiceChange(){
+                speechSynth.addEventListener('voiceschanged', function(){
+                    console.log(`My voice is changing.`);
+                    Broadcast.broadcast('/assistant/voicechange', speechSynth);
+                }, {once : true});
+            }
+
+            function broadcastWakeUp(){
+                wakeEl.addEventListener('click', function(event){
+                    event.preventDefault();
+                    console.log(`You're trying to wake me up.`);
+                    interactions.speaking = false;
+                    interactions.listenToUser = true;
+                    interactions.executeCommand = false;
+                    interactions.selectedCommand = {};
+                    Broadcast.broadcast('/assistant/wakeup', { interactions : interactions });
+                    if (!interactions.gaveIntro){
+                        interactions.gaveIntro = true;
+                    }
+                });
+                continue_assist.addEventListener('click', function(event){
+                    wakeupMsg = ''
+                    console.log(`Contine to listen..`);
+                    interactions.speaking = false;
+                    interactions.gaveIntro = true;
+                    interactions.listenToUser = true;
+                    interactions.executeCommand = false;
+                    interactions.selectedCommand = {};
+                    Broadcast.broadcast('/assistant/wakeup', { interactions : interactions });
+                });
+            }
+
+            function broadcastUtteranceEvents(){
+                utterance.addEventListener('start', function(event){
+                    console.log(`I've started to speak`);
+                    interactions.speaking = true;
+                    Broadcast.broadcast('/assistant/speech/start', { event : event, interactions : interactions });
+                });
+                utterance.addEventListener('end', function(event){
+                    console.log(`I'm done speaking`);
+                    interactions.speaking = false;
+                    Broadcast.broadcast('/assistant/speech/end', { event : event, interactions : interactions });
+                });
+                utterance.addEventListener('error', function(event){
+                    console.log(`Whoops! Something went wrong..?`);
+                    Broadcast.broadcast('/assistant/speech/error', { event : event, interactions : interactions });
+                });
+            }
+
+            function broadcastSpeechRecognitionEvents(){
+                speechRec.addEventListener('start', function(event){
+                    console.log(`I've started to listen to you.`);
+                    Broadcast.broadcast('/assistant/listening/start', { event : event, interactions : interactions });
+                });
+                speechRec.addEventListener('end', function(event){
+                    console.log(`I'm done listening to you.`);
+                    interactions.listenToUser = false;
+                    Broadcast.broadcast('/assistant/listening/end', { event : event, interactions : interactions });
+                });
+                speechRec.addEventListener('result', function(event){
+                    console.log(`I recognized something you said.`);
+                    interactions.listenToUser = false;
+                    Broadcast.broadcast('/assistant/listening/recognized', { event : event, interactions : interactions });
+                });
+                speechRec.addEventListener('error', function(event){
+                    console.log(`Whoops! Something went wrong..?`);
+                    interactions.listenToUser = false;
+                    Broadcast.broadcast('/assistant/listening/error', { event : event, interactions : interactions });
+                });
+            }
+
+            // End of Broadcasting functions
+
+            // Broadcast Listener functions
+
+            function setVoice(){
+                Broadcast.listen('/assistant/voicechange', function(synth){
+                    voices = speechSynth.getVoices();
+                    var preferredVoice = voices.find(_findGoogleVoice);
+                    utterance.voice = preferredVoice ? preferredVoice : voices[0];
+                    utterance.rate = 1;
+                    console.log(`Voice is all set.`);
+                });
+            }
+
+            function sleep(milliseconds) {
+              var start = new Date().getTime();
+              for (var i = 0; i < 1e7; i++) {
+                if ((new Date().getTime() - start) > milliseconds){
+                  break;
+                }
+              }
+            }
+
+
+
+
+            function assistantAwoken(){
+                Broadcast.listen('/assistant/wakeup', function(data){
+                    if (data.interactions.speaking){
+                        return false;
+                    }
+                    utterance.text = (data.interactions.gaveIntro) ? wakeupMsg : introMsg;
+                    speechSynth.speak(utterance);
+                    console.log(`I'm awake!`);
+                });
+            }
+
+            function assistantSpeechStart(){
+                Broadcast.listen('/assistant/speech/start', function(data){
+                    console.log('Speech start data: ', data);
+                });
+            }
+            function assistantSpeechEnd(){
+                Broadcast.listen('/assistant/speech/end', function(data){
+                    console.log('Speech end data: ', data);
+                });
+            }
+            function beginRecognition(){
+                Broadcast.listen('/assistant/speech/end', function(data){
+                    if (data.interactions.listenToUser){
+                        speechRec.start();
+                    }
+                });
+            }
+
+            function userSpeechStart(){
+                Broadcast.listen('/assistant/listening/start', function(data){
+                    console.log('Recognition start data: ', data);
+                });
+            }
+            function userSpeechEnd(){
+                Broadcast.listen('/assistant/listening/end', function(data){
+                    console.log('Recognition end data: ', data);
+                });
+            }
+            function userSpeechRecognized(){
+                Broadcast.listen('/assistant/listening/recognized', function(data){
+                    console.log('Recognition result data: ', data);
+                });
+            }
+
+            function processUserMessage(){
+                Broadcast.listen('/assistant/listening/recognized', function(data){
+                    var msg = data.event.results[0][0].transcript;
+                    if (msg.indexOf(`***`) > -1){
+                        respondToProfanity();
+                        return false;
+                    }
+                    console.log(`You said ${msg}`);
+                    respondToUserCommand(_findCommand(msg));
+                });
+            }
+            function doCommand(){
+                Broadcast.listen('/assistant/speech/end', function(data){
+                    if (!data.interactions.executeCommand){
+                        console.log(`nothing for me to execute`);
+                        return false;
+                    }
+                    console.log(`I should be doing something`);
+                    if (data.interactions.selectedCommand.href){
+                         console.log(`nothing for me to execute`);
+                       // window.location.href = data.interactions.selectedCommand.href;
+                    }
+                });
+            }
+
+            // End of Broadcast Listener functions
+
+            // DOM UI
+
+            function displayAssistantSpeech(){
+                Broadcast.listen('/assistant/speech/start', function(data){
+                    if(data.event.utterance.text != ''){
+                        _appendMsgToConvoBox(data.event.utterance.text, 'assistant');
+                    }
+                });
+            }
+
+            function displayUserSpeech(){
+                Broadcast.listen('/assistant/listening/recognized', function(data){
+                    _appendMsgToConvoBox(data.event.results[0][0].transcript, 'user');
+                });
+            }
+
+            function displayAssistantUnavailable(){
+                assistantUIEl.classList.add('hide');
+                assistantUIUnavailable.classList.add('show');
+            }
+
+            if (speechSynth && utterance && speechRec){
+                // Broadcasting functions
+                broadcastVoiceChange();
+                broadcastWakeUp();
+                broadcastUtteranceEvents();
+                broadcastSpeechRecognitionEvents();
+
+                // Broadcast listeners
+                setVoice();
+                assistantAwoken();
+                assistantSpeechStart();
+                assistantSpeechEnd();
+                beginRecognition();
+                userSpeechStart();
+                userSpeechEnd();
+                userSpeechRecognized();
+                processUserMessage();
+                doCommand();
+
+                // DOM UI
+                displayAssistantSpeech();
+                displayUserSpeech();
+            }else {
+                displayAssistantUnavailable();
+            }
+
+            return {
+                Broadcast : Broadcast,
+                speechSynthesis : speechSynth,
+                utterance : utterance,
+                speechRecognition : speechRec
+            }
+        })();
+    </script>
+</body>
+
+</html>
