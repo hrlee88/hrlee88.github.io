@@ -1,230 +1,168 @@
-/* JS Document */
 
-/******************************
+(function($) {
+    // 'use strict';
 
-[Table of Contents]
+    // Main Navigation
+    $( '.hamburger-menu' ).on( 'click', function() {
+        $(this).toggleClass('open');
+        $('.site-navigation').toggleClass('show');
+    });
 
-1. Vars and Inits
-2. Set Header
-3. Init Menu
-4. InitDeptSlider
-5. Init Accordions
+    // Hero Slider
+    var mySwiper = new Swiper('.hero-slider', {
+        slidesPerView: 1,
+        spaceBetween: 0,
+        // loop: true,
+        pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+            renderBullet: function (index, className) {
+                return '<span class="' + className + '">0' + (index + 1) + '</span>';
+            },
+        },
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev'
+        }
+    });
+
+    // Testimonial Slider
+    var swiper = new Swiper('.testimonial-slider-wrap', {
+        slidesPerView: 1,
+        spaceBetween: 0,
+        loop: true,
+        effect: 'fade',
+        speed: 800,
+        pagination: {
+            el: '.swiper-pagination',
+            clickable: true
+        }
+    });
+
+    // Accordion & Toggle
+    $('.accordion-wrap.type-accordion').collapsible({
+        accordion: true,
+        contentOpen: 0,
+        arrowRclass: 'arrow-r',
+        arrowDclass: 'arrow-d'
+    });
+
+    $('.accordion-wrap .entry-title').on('click', function() {
+        $('.accordion-wrap .entry-title').removeClass('active');
+        $(this).addClass('active');
+    });
+
+    // Tabs
+    $(function() {
+        $('.tab-content:first-child').show();
+
+        $('.tab-nav').bind('click', function(e) {
+            $this = $(this);
+            $tabs = $this.parent().parent().next();
+            $target = $($this.data("target"));
+            $this.siblings().removeClass('active');
+            $target.siblings().css("display", "none");
+            $this.addClass('active');
+            $target.fadeIn("slow");
+        });
+
+        $('.tab-nav:first-child').trigger('click');
+    });
+
+    // Circular Progress Bar
+    $('#loader_1').circleProgress({
+        startAngle: -Math.PI / 4 * 2,
+        value: 0.90,
+        size: 156,
+        thickness: 4,
+        fill: {
+            gradient: ["#5386e7", "#43a7f0"]
+        }
+    }).on('circle-animation-progress', function(event, progress) {
+        $(this).find('strong').html(Math.round(90 * progress) + '<i>%</i>');
+    });
+
+    $('#loader_2').circleProgress({
+        startAngle: -Math.PI / 4 * 2,
+        value: 0.65,
+        size: 156,
+        thickness: 4,
+        fill: {
+            gradient: ["#5386e7", "#43a7f0"]
+        }
+    }).on('circle-animation-progress', function(event, progress) {
+        $(this).find('strong').html(Math.round(65 * progress) + '<i>%</i>');
+    });
+
+    $('#loader_3').circleProgress({
+        startAngle: -Math.PI / 4 * 2,
+        value: 0.25,
+        size: 156,
+        thickness: 4,
+        fill: {
+            gradient: ["#5386e7", "#43a7f0"]
+        }
+    }).on('circle-animation-progress', function(event, progress) {
+        $(this).find('strong').html(Math.round(25 * progress) + '<i>%</i>');
+    });
+
+    $('#loader_4').circleProgress({
+        startAngle: -Math.PI / 4 * 2,
+        value: 0.59 ,
+        size: 156,
+        thickness: 4,
+        fill: {
+            gradient: ["#5386e7", "#43a7f0"]
+        }
+    }).on('circle-animation-progress', function(event, progress) {
+        $(this).find('strong').html(Math.round(59 * progress) + '<i>%</i>');
+    });
+
+    $('#loader_5').circleProgress({
+        startAngle: -Math.PI / 4 * 2,
+        value: 0.83 ,
+        size: 156,
+        thickness: 4,
+        fill: {
+            gradient: ["#5386e7", "#43a7f0"]
+        }
+    }).on('circle-animation-progress', function(event, progress) {
+        $(this).find('strong').html(Math.round(83 * progress) + '<i>%</i>');
+    });
+
+    // Counter
+    $(".start-counter").each(function () {
+        var counter = $(this);
+
+        counter.countTo({
+            formatter: function (value, options) {
+                return value.toFixed(options.decimals).replace(/\B(?=(?:\d{3})+(?!\d))/g, ',');
+            }
+        });
+    });
+
+    // Bar Filler
+    $('.featured-fund-raised-bar').barfiller({ barColor: '#ff5a00', duration: 1500 });
+
+    $('.fund-raised-bar-1').barfiller({ barColor: '#ff5a00', duration: 1500 });
+    $('.fund-raised-bar-2').barfiller({ barColor: '#ff5a00', duration: 1500 });
+    $('.fund-raised-bar-3').barfiller({ barColor: '#ff5a00', duration: 1500 });
+    $('.fund-raised-bar-4').barfiller({ barColor: '#ff5a00', duration: 1500 });
+    $('.fund-raised-bar-5').barfiller({ barColor: '#ff5a00', duration: 1500 });
+    $('.fund-raised-bar-6').barfiller({ barColor: '#ff5a00', duration: 1500 });
+
+    // Load more
+    let $container      = $('.portfolio-container');
+    let $item           = $('.portfolio-item');
+
+    $item.slice(0, 9).addClass('visible');
+
+    $('.load-more-btn').on('click', function (e) {
+        e.preventDefault();
+
+        $('.portfolio-item:hidden').slice(0, 9).addClass('visible');
+    });
 
 
-******************************/
 
-$(document).ready(function()
-{
-	"use strict";
-
-	/* 
-
-	1. Vars and Inits
-
-	*/
-
-	var header = $('.header');
-	var menu = $('.menu');
-	var menuActive = false;
-
-	setHeader();
-
-	$(window).on('resize', function()
-	{
-		setHeader();
-
-		setTimeout(function()
-		{
-			$(window).trigger('resize.px.parallax');
-		}, 375);
-	});
-
-	$(document).on('scroll', function()
-	{
-		setHeader();
-	});
-
-	initMenu();
-	initDeptSlider();
-	initAccordions();
-
-	/* 
-
-	2. Set Header
-
-	*/
-
-	function setHeader()
-	{
-		if($(window).scrollTop() > 91)
-		{
-			header.addClass('scrolled');
-		}
-		else
-		{
-			header.removeClass('scrolled');
-		}
-	}
-
-	/* 
-
-	3. Init Menu
-
-	*/
-
-	function initMenu()
-	{
-		if($('.hamburger').length && $('.menu').length)
-		{
-			var hamb = $('.hamburger');
-			var close = $('.menu_close_container');
-
-			hamb.on('click', function()
-			{
-				if(!menuActive)
-				{
-					openMenu();
-				}
-				else
-				{
-					closeMenu();
-				}
-			});
-
-			close.on('click', function()
-			{
-				if(!menuActive)
-				{
-					openMenu();
-				}
-				else
-				{
-					closeMenu();
-				}
-			});
-
-	
-		}
-	}
-
-	function openMenu()
-	{
-		menu.addClass('active');
-		menuActive = true;
-	}
-
-	function closeMenu()
-	{
-		menu.removeClass('active');
-		menuActive = false;
-	}
-
-	/* 
-
-	4. Init Dept Slider
-
-	*/
-
-	function initDeptSlider()
-	{
-		if($('.dept_slider').length)
-		{
-			var deptSlider = $('.dept_slider');
-			deptSlider.owlCarousel(
-			{
-				items:4,
-				autoplay:true,
-				loop:true,
-				nav:false,
-				dots:false,
-				margin:30,
-				smartSpeed:1200,
-				responsive:
-				{
-					0:{items:1},
-					768:{items:2},
-					992:{items:3},
-					1200:{items:4}
-				}
-			});
-
-			if($('.dept_slider_nav').length)
-			{
-				var next = $('.dept_slider_nav');
-				next.on('click', function()
-				{
-					deptSlider.trigger('next.owl.carousel');
-				});
-			}
-		}
-	}
-
-	/* 
-
-	5. Init Accordions
-
-	*/
-
-	function initAccordions()
-	{
-		if($('.accordion').length)
-		{
-			var accs = $('.accordion');
-
-			accs.each(function()
-			{
-				var acc = $(this);
-
-				if(acc.hasClass('active'))
-				{
-					var panel = $(acc.next());
-					var panelH = panel.prop('scrollHeight') + "px";
-					
-					if(panel.css('max-height') == "0px")
-					{
-						panel.css('max-height', panel.prop('scrollHeight') + "px");
-					}
-					else
-					{
-						panel.css('max-height', "0px");
-					} 
-				}
-
-				acc.on('click', function()
-				{
-					if(acc.hasClass('active'))
-					{
-						acc.removeClass('active');
-						var panel = $(acc.next());
-						var panelH = panel.prop('scrollHeight') + "px";
-						
-						if(panel.css('max-height') == "0px")
-						{
-							panel.css('max-height', panel.prop('scrollHeight') + "px");
-						}
-						else
-						{
-							panel.css('max-height', "0px");
-						} 
-					}
-					else
-					{
-						acc.addClass('active');
-						var panel = $(acc.next());
-						var panelH = panel.prop('scrollHeight') + "px";
-						
-						if(panel.css('max-height') == "0px")
-						{
-							panel.css('max-height', panel.prop('scrollHeight') + "px");
-						}
-						else
-						{
-							panel.css('max-height', "0px");
-						} 
-					}
-				});
-			});
-		}
-	}
-
-});
+})(jQuery);
