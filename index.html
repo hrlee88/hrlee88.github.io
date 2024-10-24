@@ -1,567 +1,93 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
+
 <head>
-    <title>Elite MD Concierge</title>
+	
+  <link href="style.css" rel="stylesheet" type="text/css" />
 
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="css/bootstrap.min.css">
 
-    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
-    <!-- Swiper CSS -->
-    <link rel="stylesheet" href="css/swiper.min.css">
-
-    <!-- Styles -->
-    <link rel="stylesheet" href="style.css">
-    <script src="js/custom.js"></script>
 </head>
-<body>
-    <header class="site-header">
-        <div class="nav-bar">
-            <div class="container">
-                <div class="row">
-                    <div class="col-12 d-flex flex-wrap justify-content-between align-items-center">
-                        <div class="site-branding d-flex align-items-center">
-                           <a class="d-block" href="index.html" rel="home"><img class="d-block" src="images/logo.png" alt="logo"></a>
-                        </div><!-- .site-branding -->
+ 
 
-                        <nav class="site-navigation d-flex justify-content-end align-items-center">
-                            <ul class="d-flex flex-column flex-lg-row justify-content-lg-end align-items-center">
-                                <li class="current-menu-item"><a href="index.html">Home</a></li>
-                                <li><a href="about.html">About us</a></li>
-                                <li><a href="services.html">Services</a></li>
-                                <li><a href="news.html">News</a></li>
-                                <li><a href="contact.html">Contact</a></li>
+  <body>
 
-                                <li class="call-btn button gradient-bg mt-3 mt-md-0">
-                                    <a class="d-flex justify-content-center align-items-center" href="#"><img src="images/emergency-call.png"> +34 586 778 8892</a>
-                                </li>
-                            </ul>
-                        </nav><!-- .site-navigation -->
+      <ul>
+        <li><a class="active" href="index.html">Home</a></li>
+      <li><a href="Fish_robots.html">Fish robots</a></li>
+      <li><a href="San_Diego.html">San Diego Data</a></li>
+      <li><a href="LA.html">Los Angles Data</a></li>
+      <li><a href="SF.html"> Santa Barbara Data</a></li>
+      <li><a href="blog.html">blog</a></li>    
+      <li><a href="Fish_Cam.html">Fish Camera</a></li> 
+      <li><a href="Comics.html">Comics</a></li>
+      <li><a href="About_us.html">About us</a></li>
+    </ul>
 
-                        <div class="hamburger-menu d-lg-none">
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                        </div><!-- .hamburger-menu -->
-                    </div><!-- .col -->
-                </div><!-- .row -->
-            </div><!-- .container -->
-        </div><!-- .nav-bar -->
+	<h2>
+		------------Aquabots Fish Tracking---------------
+    
 
-        <div class="swiper-container hero-slider">
-            <div class="swiper-wrapper">
-                <div class="swiper-slide hero-content-wrap" style="background-image: url('images/hero.jpg')">
-                    <div class="hero-content-overlay position-absolute w-100 h-100">
-                        <div class="container h-100">
-                            <div class="row h-100">
-                                <div class="col-12 col-lg-6 d-flex flex-column justify-content-center align-items-start">
-                                    <header class="entry-header">
-                                        <h1>The Best <br>Medical Services</h1>
-                                    </header><!-- .entry-header -->
+        
+    </p>
 
-                                    <div class="entry-content mt-4">
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec malesuada lorem maximus mauris scelerisque, at rutrum nulla dictum. Ut ac ligula sapien. Suspendisse cursus faucibus finibus.</p>
-                                    </div><!-- .entry-content -->
+    
+    <h5>Problem / Soulution</h5>
+    <p> For years, fishermen have relied solely on sites that provide outdated information for things such as fish variety and fish locations. Fishermen have struggled since, with finding proper fishing sights and at times would come home with barely any catch. Our goal is to use SoFi, a fish robot with the ability to record the sea, map areas, and sense if fish went missing. Using the information SoFi can give us we would upload the data to this website, for all fishermen to access.
+ </p>
+    <img src="data:image/jpeg;base64,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" />
 
-                                    <footer class="entry-footer d-flex flex-wrap align-items-center mt-4">
-                                        <a href="#" class="button gradient-bg">Read More</a>
-                                    </footer><!-- .entry-footer -->
-                                </div><!-- .col -->
-                            </div><!-- .row -->
-                        </div><!-- .container -->
-                    </div><!-- .hero-content-overlay -->
-                </div><!-- .hero-content-wrap -->
+    
+    <p>
+
+
+
       
-            <div class="pagination-wrap position-absolute w-100">
-                <div class="swiper-pagination d-flex flex-row flex-md-column"></div>
-            </div><!-- .pagination-wrap -->
-        </div><!-- .hero-slider -->
-    </header><!-- .site-header -->
-
-    <div class="homepage-boxes">
-        <div class="container">
-            <div class="row">
-                <div class="col-12 col-md-6 col-lg-4">
-                    <div class="opening-hours">
-                        <h2 class="d-flex align-items-center">Opening Hours</h2>
-
-                        <ul class="p-0 m-0">
-                            <li>Monday - Thursday <span>8.00 - 19.00</span></li>
-                            <li>Friday <span>8.00 - 18.30</span></li>
-                            <li>Saturday <span>9.30 - 17.00</span></li>
-                            <li>Sunday <span>9.30 - 15.00</span></li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="col-12 col-md-6 col-lg-3 mt-5 mt-md-0">
-                    <div class="emergency-box">
-                        <h2 class="d-flex align-items-center">Emergency</h2>
-
-                        <div class="call-btn button gradient-bg">
-                            <a class="d-flex justify-content-center align-items-center" href="#"><img src="images/emergency-call.png"> +34 586 778 8892</a>
-                        </div>
-
-                        <p>Lorem ipsum dolor sit amet, cons ectetur adipiscing elit. Donec males uada lorem maximus mauris sceler isque, at rutrum nulla.</p>
-                    </div>
-                </div>
-
-                <div class="col-12 col-md-6 col-lg-5 mt-5 mt-lg-0">
-                    <div class="appointment-box">
-                        <h2 class="d-flex align-items-center">Make an Appointment</h2>
-
-                        <form class="d-flex flex-wrap justify-content-between">
-                            <select class="select-department">
-                                <option value="value1">Select Department</option>
-                                <option value="value2">Select Department 1</option>
-                                <option value="value3">Select Department 2</option>
-                            </select>
-
-                            <select class="select-doctor">
-                                <option>Select Doctor</option>
-                                <option>Select Doctor 1</option>
-                                <option>Select Doctor 2</option>
-                            </select>
-
-                            <input type="text" placeholder="Name">
-
-                            <input type="number" placeholder="Phone No">
-
-                            <input class="button gradient-bg" type="submit" value="Boom Appoitnment">
-                        </form>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="our-departments">
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <div class="our-departments-wrap">
-                        <h2>Our Departments</h2>
-
-                        <div class="row">
-                            <div class="col-12 col-md-6 col-lg-4">
-                                <div class="our-departments-cont">
-                                    <header class="entry-header d-flex flex-wrap align-items-center">
-                                        <img src="images/cardiogram.png" alt="">
-
-                                        <h3>Cardioology</h3>
-                                    </header>
-
-                                    <div class="entry-content">
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec malesuada lorem maximus mauris.</p>
-                                    </div>
-
-                                    <footer class="entry-footer">
-                                        <a href="#">read more</a>
-                                    </footer>
-                                </div>
-                            </div>
-
-                            <div class="col-12 col-md-6 col-lg-4">
-                                <div class="our-departments-cont">
-                                    <header class="entry-header d-flex flex-wrap align-items-center">
-                                        <img src="images/stomach-2.png" alt="">
-
-                                        <h3>Gastroenterology</h3>
-                                    </header>
-
-                                    <div class="entry-content">
-                                        <p>Donec malesuada lorem maximus mauris scelerisque, at rutrum nulla dictum. Ut ac ligula sapien.</p>
-                                    </div>
-
-                                    <footer class="entry-footer">
-                                        <a href="#">read more</a>
-                                    </footer>
-                                </div>
-                            </div>
-
-                            <div class="col-12 col-md-6 col-lg-4">
-                                <div class="our-departments-cont">
-                                    <header class="entry-header d-flex flex-wrap align-items-center">
-                                        <img src="images/blood-sample-2.png" alt="">
-
-                                        <h3>Medical Lab</h3>
-                                    </header>
-
-                                    <div class="entry-content">
-                                        <p>Lorem maximus mauris scelerisque, at rutrum nulla dictum. Ut ac ligula sapien. Suspendisse cursus.</p>
-                                    </div>
-
-                                    <footer class="entry-footer">
-                                        <a href="#">read more</a>
-                                    </footer>
-                                </div>
-                            </div>
-
-                            <div class="col-12 col-md-6 col-lg-4">
-                                <div class="our-departments-cont">
-                                    <header class="entry-header d-flex flex-wrap align-items-center">
-                                        <img src="images/teeth.png" alt="">
-
-                                        <h3>Dental Care</h3>
-                                    </header>
-
-                                    <div class="entry-content">
-                                        <p>Donec malesuada lorem maximus mauris scelerisque, at rutrum nulla dictum. Ut ac ligula sapien.</p>
-                                    </div>
-
-                                    <footer class="entry-footer">
-                                        <a href="#">read more</a>
-                                    </footer>
-                                </div>
-                            </div>
-
-                            <div class="col-12 col-md-6 col-lg-4">
-                                <div class="our-departments-cont">
-                                    <header class="entry-header d-flex flex-wrap align-items-center">
-                                        <img src="images/stretcher.png" alt="">
-
-                                        <h3>Surgery</h3>
-                                    </header>
-
-                                    <div class="entry-content">
-                                        <p>Lorem maximus mauris scelerisque, at rutrum nulla dictum. Ut ac ligula sapien. Suspendisse cursus.</p>
-                                    </div>
-
-                                    <footer class="entry-footer">
-                                        <a href="#">read more</a>
-                                    </footer>
-                                </div>
-                            </div>
-
-                            <div class="col-12 col-md-6 col-lg-4">
-                                <div class="our-departments-cont">
-                                    <header class="entry-header d-flex flex-wrap align-items-center">
-                                        <img src="images/scanner.png" alt="">
-
-                                        <h3>Neurology</h3>
-                                    </header>
-
-                                    <div class="entry-content">
-                                        <p>Donec malesuada lorem maximus mauris scelerisque, at rutrum nulla dictum. Ut ac ligula sapien.</p>
-                                    </div>
-
-                                    <footer class="entry-footer">
-                                        <a href="#">read more</a>
-                                    </footer>
-                                </div>
-                            </div>
-
-                            <div class="col-12 col-md-6 col-lg-4 mb-md-0">
-                                <div class="our-departments-cont">
-                                    <header class="entry-header d-flex flex-wrap align-items-center">
-                                        <img src="images/bones.png" alt="">
-
-                                        <h3>Orthopaedy</h3>
-                                    </header>
-
-                                    <div class="entry-content">
-                                        <p>Lorem maximus mauris scelerisque, at rutrum nulla dictum. Ut ac ligula sapien. Suspendisse cursus.</p>
-                                    </div>
-
-                                    <footer class="entry-footer">
-                                        <a href="#">read more</a>
-                                    </footer>
-                                </div>
-                            </div>
-
-                            <div class="col-12 col-md-6 col-lg-4 mb-lg-0">
-                                <div class="our-departments-cont">
-                                    <header class="entry-header d-flex flex-wrap align-items-center">
-                                        <img src="images/blood-donation-2.png" alt="">
-
-                                        <h3>Pediatry</h3>
-                                    </header>
-
-                                    <div class="entry-content">
-                                        <p>Donec malesuada lorem maximus mauris scelerisque, at rutrum nulla dictum. Ut ac ligula sapien.</p>
-                                    </div>
-
-                                    <footer class="entry-footer">
-                                        <a href="#">read more</a>
-                                    </footer>
-                                </div>
-                            </div>
-
-                            <div class="col-12 col-md-6 col-lg-4 mb-0">
-                                <div class="our-departments-cont">
-                                    <header class="entry-header d-flex flex-wrap align-items-center">
-                                        <img src="images/glasses.png" alt="">
-
-                                        <h3>Ophthalmology</h3>
-                                    </header>
-
-                                    <div class="entry-content">
-                                        <p>Lorem maximus mauris scelerisque, at rutrum nulla dictum. Ut ac ligula sapien. Suspendisse cursus.</p>
-                                    </div>
-
-                                    <footer class="entry-footer">
-                                        <a href="#">read more</a>
-                                    </footer>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <section class="testimonial-section">
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <h2>Pacient’s Testimonials</h2>
-                </div>
-            </div>
-        </div>
-
-        <!-- Swiper -->
-        <div class="testimonial-slider">
-            <div class="container">
-                <div class="row">
-                    <div class="col-12 col-lg-9">
-                        <div class="testimonial-bg-shape">
-                            <div class="swiper-container testimonial-slider-wrap">
-                                <div class="swiper-wrapper">
-                                    <div class="swiper-slide">
-                                        <div class="entry-content">
-                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec malesuada lorem maximus mauris scelerisque, at rutrum nulla dictum. Ut ac ligula sapien. Suspendisse cursus faucibus finibus. Curabitur ut augue finibus, luctus tortor at, ornare erat. Nulla facilisi. Sed est risus, laoreet et quam non, viverra accumsan leo.</p>
-                                        </div><!-- .entry-content -->
-
-                                        <div class="entry-footer">
-                                            <figure class="user-avatar">
-                                                <img src="images/user-1.jpg" alt="">
-                                            </figure><!-- .user-avatar -->
-
-                                            <h3 class="testimonial-user">Russell Stephens <span>University in UK</span></h3>
-                                        </div><!-- .entry-footer -->
-                                    </div><!-- .swiper-slide -->
-
-                                    <div class="swiper-slide">
-                                        <div class="entry-content">
-                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec malesuada lorem maximus mauris scelerisque, at rutrum nulla dictum. Ut ac ligula sapien. Suspendisse cursus faucibus finibus. Curabitur ut augue finibus, luctus tortor at, ornare erat. Nulla facilisi. Sed est risus, laoreet et quam non, viverra accumsan leo.</p>
-                                        </div><!-- .entry-content -->
-
-                                        <div class="entry-footer">
-                                            <figure class="user-avatar">
-                                                <img src="images/user-2.jpg" alt="">
-                                            </figure><!-- .user-avatar -->
-
-                                            <h3 class="testimonial-user">Russell Stephens <span>University in UK</span></h3>
-                                        </div><!-- .entry-footer -->
-                                    </div><!-- .swiper-slide -->
-
-                                    <div class="swiper-slide">
-                                        <div class="entry-content">
-                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec malesuada lorem maximus mauris scelerisque, at rutrum nulla dictum. Ut ac ligula sapien. Suspendisse cursus faucibus finibus. Curabitur ut augue finibus, luctus tortor at, ornare erat. Nulla facilisi. Sed est risus, laoreet et quam non, viverra accumsan leo.</p>
-                                        </div><!-- .entry-content -->
-
-                                        <div class="entry-footer">
-                                            <figure class="user-avatar">
-                                                <img src="images/user-3.jpg" alt="">
-                                            </figure><!-- .user-avatar -->
-
-                                            <h3 class="testimonial-user">Russell Stephens <span>University in UK</span></h3>
-                                        </div><!-- .entry-footer -->
-                                    </div><!-- .swiper-slide -->
-
-                                    <div class="swiper-slide">
-                                        <div class="entry-content">
-                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec malesuada lorem maximus mauris scelerisque, at rutrum nulla dictum. Ut ac ligula sapien. Suspendisse cursus faucibus finibus. Curabitur ut augue finibus, luctus tortor at, ornare erat. Nulla facilisi. Sed est risus, laoreet et quam non, viverra accumsan leo.</p>
-                                        </div><!-- .entry-content -->
-
-                                        <div class="entry-footer">
-                                            <figure class="user-avatar">
-                                                <img src="images/user-4.jpg" alt="">
-                                            </figure><!-- .user-avatar -->
-
-                                            <h3 class="testimonial-user">Russell Stephens <span>University in UK</span></h3>
-                                        </div><!-- .entry-footer -->
-                                    </div><!-- .swiper-slide -->
-                                </div><!-- .swiper-wrapper -->
-
-                                <div class="swiper-pagination-wrap">
-                                    <div class="container">
-                                        <div class="row">
-                                            <div class="col-12">
-                                                <div class="swiper-pagination position-relative flex justify-content-center align-items-center"></div>
-                                            </div><!-- .col -->
-                                        </div><!-- .row -->
-                                    </div><!-- .container -->
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div><!-- .testimonial-slider -->
-    </section><!-- .testimonial-section -->
-
-    <div class="the-news">
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <h2>The News</h2>
-
-                    <div class="row">
-                        <div class="col-12 col-md-6 col-lg-4">
-                            <div class="the-news-wrap">
-                                <figure class="post-thumbnail">
-                                    <a href="#"><img src="images/news-1.png" alt=""></a>
-                                </figure>
-
-                                <header class="entry-header">
-                                    <h3>The latest in Medicine</h3>
-
-                                    <div class="post-metas d-flex flex-wrap align-items-center">
-                                        <div class="posted-date"><label>Date: </label><a href="#">April 12, 2018</a></div>
-
-                                        <div class="posted-by"><label>By: </label><a href="#">Dr. Jake Williams</a></div>
-
-                                        <div class="post-comments"><a href="#">2 Comments</a></div>
-                                    </div>
-                                </header>
-
-                                <div class="entry-content">
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec malesuada lorem maximus mauris scelerisque, at rutrum nulla dictum. Ut ac ligula sapien. Suspendisse cursus faucibus finibus. </p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-12 col-md-6 col-lg-4">
-                            <div class="the-news-wrap">
-                                <figure class="post-thumbnail">
-                                    <a href="#"><img src="images/news-2.png" alt=""></a>
-                                </figure>
-
-                                <header class="entry-header">
-                                    <h3>All you need to know about pills</h3>
-
-                                    <div class="post-metas d-flex flex-wrap align-items-center">
-                                        <div class="posted-date"><label>Date: </label><a href="#">April 12, 2018</a></div>
-
-                                        <div class="posted-by"><label>By: </label><a href="#">Dr. Jake Williams</a></div>
-
-                                        <div class="post-comments"><a href="#">2 Comments</a></div>
-                                    </div>
-                                </header>
-
-                                <div class="entry-content">
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec malesuada lorem maximus mauris scelerisque, at rutrum nulla dictum. Ut ac ligula sapien. Suspendisse cursus faucibus finibus. </p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-12 col-md-6 col-lg-4">
-                            <div class="the-news-wrap">
-                                <figure class="post-thumbnail">
-                                    <a href="#"><img src="images/news-3.png" alt=""></a>
-                                </figure>
-
-                                <header class="entry-header">
-                                    <h3>Marketing and Medicine</h3>
-
-                                    <div class="post-metas d-flex flex-wrap align-items-center">
-                                        <div class="posted-date"><label>Date: </label><a href="#">April 12, 2018</a></div>
-
-                                        <div class="posted-by"><label>By: </label><a href="#">Dr. Jake Williams</a></div>
-
-                                        <div class="post-comments"><a href="#">2 Comments</a></div>
-                                    </div>
-                                </header>
-
-                                <div class="entry-content">
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec malesuada lorem maximus mauris scelerisque, at rutrum nulla dictum. Ut ac ligula sapien. Suspendisse cursus faucibus finibus. </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="subscribe-banner">
-        <div class="container">
-            <div class="row">
-                <div class="col-12 col-lg-8 offset-lg-2">
-                    <h2>Subscribe to our newsletter</h2>
-
-                    <form>
-                        <input type="email" placeholder="E-mail address">
-                        <input class="button gradient-bg" type="submit" value="Subscribe">
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <footer class="site-footer">
-        <div class="footer-widgets">
-            <div class="container">
-                <div class="row">
-                    <div class="col-12 col-md-6 col-lg-4">
-                        <div class="foot-about">
-                            <h2><a href="#"><img src="images/logo.png" alt=""></a></h2>
-
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec malesuada lorem maximus mauris scelerisque, at rutrum nulla dictum. Ut ac ligula sapien.</p>
-
-                            <p class="copyright"><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
-                        </div><!-- .foot-about -->
-                    </div><!-- .col -->
-
-                    <div class="col-12 col-md-6 col-lg-4 mt-5 mt-md-0">
-                        <div class="foot-contact">
-                            <h2>Contact</h2>
-
-                            <ul class="p-0 m-0">
-                                <li><span>Addtress:</span>Mitlton Str. 26-27 London UK</li>
-                                <li><span>Phone:</span>+53 345 7953 32453</li>
-                                <li><span>Email:</span>yourmail@gmail.com</li>
-                            </ul>
-                        </div>
-                    </div><!-- .col -->
-
-                    <div class="col-12 col-md-6 col-lg-4 mt-5 mt-md-0">
-                        <div class="foot-links">
-                            <h2>Usefull Links</h2>
-
-                            <ul class="p-0 m-0">
-                                <li><a href="index.html">Home</a></li>
-                                <li><a href="about.html">About us</a></li>
-                                <li><a href="#">Departments</a></li>
-                                <li><a href="contact.html">Contact</a></li>
-                                <li><a href="news.html">FAQ</a></li>
-                                <li><a href="services.html">Testimonials</a></li>
-                            </ul>
-                        </div><!-- .foot-links -->
-                    </div><!-- .col -->
-                </div><!-- .row -->
-            </div><!-- .container -->
-        </div><!-- .footer-widgets -->
-    </footer><!-- .site-footer -->
-
-    <script type='text/javascript' src='js/jquery.js'></script>
-    <script type='text/javascript' src='js/jquery.collapsible.min.js'></script>
-    <script type='text/javascript' src='js/swiper.min.js'></script>
-    <script type='text/javascript' src='js/jquery.countdown.min.js'></script>
-    <script type='text/javascript' src='js/circle-progress.min.js'></script>
-    <script type='text/javascript' src='js/jquery.countTo.min.js'></script>
-    <script type='text/javascript' src='js/jquery.barfiller.js'></script>
-    <script type='text/javascript' src='js/custom.js'></script>
+
+    </p>
+      
+
+    <form action="/action_page.php">
+      <label for="fname">Today's fishing count:</label>
+      <input type="text" id="fname" name="fname"><br><br>
+      <label for="fname">Today's fishing weight (pounds):</label>
+      <input type="text" id="fname" name="fname"><br><br>
+      <label for="lname">Date of fishing trip:</label>
+      <input type="text" 
+        id="lname" name="lname"><br><br>
+     
+      <label for="lname">Location:</label>
+      <input type="text" id="lname" name="lname"><br><br>
+      <input type="submit" value="Submit">
+    </form>
+
+    
+      <h5>About our website</h5>
+    <p> This website is to help fishfolk know how many fish there are in one area. By using a robot fish named SoFi, we will track fish so you can know where the right place for you is to fish! </p>
+      
+
+    <button id="toggle-mode">Toggle Day/Night Mode</button>
+    <script src="script.js"></script>
+
+    <link rel="stylesheet" href="styles.css">
+
+
+
+
+
+    
+
+
+   
+
+
+
+
+
+
+
+    
+    </h2>
+    
 </body>
 </html>
